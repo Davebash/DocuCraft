@@ -29,13 +29,23 @@ export const exportToDocx = async (element?: HTMLElement): Promise<void> => {
             for (const child of nodes) {
                 if (child.nodeType === 3) { // TEXT
                     const text = child.textContent?.replace(/\r?\n/g, ' ') || "";
-                    if (text) { // Keep spaces, they are significant in inline
-                        results.push(new TextRun({
-                            text,
-                            font: styles.font || "Georgia",
-                            size: styles.size || 24,
-                            ...styles
-                        }));
+                    if (text) {
+                        // Regex to detect emojis and symbols
+                        const symbolRegex = /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
+                        const parts = text.split(symbolRegex);
+
+                        parts.forEach(part => {
+                            if (!part) return;
+                            // Check if this specific part is a symbol
+                            const isSymbol = symbolRegex.test(part);
+
+                            results.push(new TextRun({
+                                text: part,
+                                font: isSymbol ? "Segoe UI Emoji" : (styles.font || "Georgia"),
+                                size: styles.size || 24,
+                                ...styles
+                            }));
+                        });
                     }
                 } else if (child.nodeType === 1) { // ELEMENT
                     const el = child as HTMLElement;
