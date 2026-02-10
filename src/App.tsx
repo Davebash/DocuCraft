@@ -243,9 +243,9 @@ function App() {
         </div>
 
         {/* RIGHT PANE: MASTER DOCUMENT */}
-        <div className="flex flex-col bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden relative">
+        <div className="flex flex-col bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 relative">
           {/* TOOLBAR */}
-          <div className="bg-white border-b border-slate-100 px-5 py-3 flex items-center space-x-1 shrink-0">
+          <div className="bg-white border-b border-slate-100 px-5 py-3 flex items-center space-x-1 shrink-0 rounded-t-3xl">
             <button onClick={() => execCmd('bold')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 font-bold transition-all" title="Bold">B</button>
             <button onClick={() => execCmd('italic')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 italic transition-all" title="Italic">I</button>
             <button onClick={() => execCmd('underline')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 underline transition-all" title="Underline">U</button>
@@ -297,13 +297,13 @@ function App() {
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
           {/* DYNAMIC CONTENT AREA */}
-          <div className="flex-grow flex flex-col overflow-hidden relative bg-white">
+          <div className="flex-grow flex flex-col relative bg-white rounded-b-3xl">
             <div
               ref={previewRef}
               contentEditable={hasConverted}
               onPaste={handlePaste}
               spellCheck
-              className={`flex-grow p-16 overflow-auto focus:outline-none font-serif leading-relaxed text-[19px] preview-container selection:bg-indigo-50 z-10 ${!hasConverted ? 'cursor-not-allowed opacity-50' : ''}`}
+              className={`flex-grow p-8 md:p-16 overflow-auto focus:outline-none font-serif leading-relaxed text-[17px] md:text-[19px] preview-container selection:bg-indigo-50 z-10 rounded-b-3xl ${!hasConverted ? 'cursor-not-allowed opacity-50' : ''}`}
               onInput={() => setHasConverted(true)}
             />
 
@@ -317,25 +317,25 @@ function App() {
 
             {/* ACTION BAR */}
             {hasConverted && (
-              <div className="absolute bottom-6 right-6 flex items-center space-x-3 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500 z-20" ref={exportMenuRef}>
+              <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center space-x-2 md:space-x-3 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500 z-30" ref={exportMenuRef}>
                 <button
                   onClick={clearAll}
-                  className="px-5 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-xs shadow-xl transition-all active:scale-95"
+                  className="px-4 py-2 md:px-5 md:py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-[10px] md:text-xs shadow-xl transition-all active:scale-95"
                 >
-                  Clear Live
+                  Clear
                 </button>
 
                 <div className="relative">
                   <button
                     onClick={() => setShowExportMenu(!showExportMenu)}
-                    className="flex items-center px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-xs shadow-xl transition-all hover:scale-105 active:scale-95 group"
+                    className="flex items-center px-4 py-2 md:px-6 md:py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-[10px] md:text-xs shadow-xl transition-all hover:scale-105 active:scale-95 group"
                   >
                     <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                     Download
                   </button>
 
                   {showExportMenu && (
-                    <div className="absolute right-0 bottom-16 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 overflow-hidden ring-4 ring-slate-50">
+                    <div className="absolute right-0 bottom-14 md:bottom-16 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 overflow-hidden ring-4 ring-slate-50 animate-in zoom-in-95 duration-200 origin-bottom-right">
                       <button onClick={() => handleExport('docx')} className="w-full p-3 text-left hover:bg-blue-50/50 rounded-xl flex items-center space-x-4 transition-all group">
                         <div className="w-10 h-10 flex items-center justify-center shrink-0">
                           <img src="/word.svg" alt="Word Icon" className="w-8 h-8 object-contain group-hover:scale-110 transition-transform" />
