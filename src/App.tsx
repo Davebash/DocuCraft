@@ -5,6 +5,7 @@ import { exportToDocx } from './utils/exportDocx';
 import { exportToPdf } from './utils/exportPdf';
 import { exportToHtml } from './utils/exportHtml';
 import { createRoot } from 'react-dom/client';
+import DOMPurify from 'dompurify';
 
 function App() {
   const [inputText, setInputText] = useState<string>('');
@@ -33,7 +34,8 @@ function App() {
     // Smallest possible delay to ensure React commits the render to the DOM
     setTimeout(() => {
       if (previewRef.current) {
-        previewRef.current.innerHTML = tempContainer.innerHTML;
+        // Fix: Sanitize HTML before injection
+        previewRef.current.innerHTML = DOMPurify.sanitize(tempContainer.innerHTML);
         setHasConverted(true);
         // Focus the editor for immediate editing
         setTimeout(() => {
