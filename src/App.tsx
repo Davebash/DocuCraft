@@ -222,10 +222,10 @@ function App() {
         </div>
       </header>
 
-      <main className="flex-grow p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-5.5rem)] overflow-hidden">
+      <main className="flex-grow p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 lg:h-[calc(100vh-5.5rem)] overflow-y-auto lg:overflow-hidden bg-[#F8F9FA]">
         {/* LEFT PANE: DRAFTING */}
-        <div className="flex flex-col bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden relative">
-          <div className="bg-slate-50/50 px-6 py-4 flex items-center justify-between border-b border-slate-100">
+        <div className="flex flex-col bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden relative min-h-[500px] lg:min-h-0">
+          <div className="bg-slate-50/50 px-6 py-4 flex items-center justify-between border-b border-slate-100 shrink-0">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Markdown Draft</span>
             <button
               onClick={pushMarkdownToPreview}
@@ -234,20 +234,22 @@ function App() {
               Convert to Live →
             </button>
           </div>
-          <textarea
-            ref={textareaRef}
-            className="flex-grow w-full p-8 bg-transparent text-slate-700 font-mono text-sm resize-none focus:outline-none leading-relaxed"
-            placeholder="# Start typing your document here..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            spellCheck={false}
-          />
+          <div className="flex-grow relative overflow-hidden min-h-0">
+            <textarea
+              ref={textareaRef}
+              className="absolute inset-0 w-full p-8 bg-transparent text-slate-700 font-mono text-sm resize-none focus:outline-none leading-relaxed"
+              placeholder="# Start typing your document here..."
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              spellCheck={false}
+            />
+          </div>
         </div>
 
         {/* RIGHT PANE: MASTER DOCUMENT */}
-        <div className="flex flex-col bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 relative">
+        <div className="flex flex-col bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 relative overflow-hidden min-h-[500px] lg:min-h-0">
           {/* TOOLBAR */}
-          <div className="bg-white border-b border-slate-100 px-5 py-3 flex items-center space-x-1 shrink-0 rounded-t-3xl">
+          <div className="bg-white border-b border-slate-100 px-5 py-3 flex items-center space-x-1 shrink-0 rounded-t-3xl overflow-x-auto no-scrollbar">
             <button onClick={() => execCmd('bold')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 font-bold transition-all" title="Bold">B</button>
             <button onClick={() => execCmd('italic')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 italic transition-all" title="Italic">I</button>
             <button onClick={() => execCmd('underline')} className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-lg text-slate-800 underline transition-all" title="Underline">U</button>
@@ -299,13 +301,13 @@ function App() {
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
           {/* DYNAMIC CONTENT AREA */}
-          <div className="flex-grow flex flex-col relative bg-white rounded-b-3xl">
+          <div className="flex-grow relative bg-white rounded-b-3xl overflow-hidden min-h-0">
             <div
               ref={previewRef}
               contentEditable={hasConverted}
               onPaste={handlePaste}
               spellCheck
-              className={`flex-grow p-8 md:p-16 overflow-auto focus:outline-none font-serif leading-relaxed text-[17px] md:text-[19px] preview-container selection:bg-indigo-50 z-10 rounded-b-3xl ${!hasConverted ? 'cursor-not-allowed opacity-50' : ''}`}
+              className={`absolute inset-0 p-8 md:p-16 overflow-y-auto focus:outline-none font-serif leading-relaxed text-[17px] md:text-[19px] preview-container selection:bg-indigo-50 z-10 ${!hasConverted ? 'cursor-not-allowed opacity-50' : ''}`}
               onInput={() => setHasConverted(true)}
             />
 
